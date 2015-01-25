@@ -56,7 +56,7 @@ names(train)
 ## Preprocessing
 
 ### Basic manual pre-processing
-Studying the variables in the data set, we do not need all the variables for this analysis. Some columns are aggregate columns and have mostly NA's. There are time window variables which we can get rid of, since it should not have an impact on the outcome. Also there are redundant timestamp variables. We can get rid of the individual timestamp part1 and part2.
+Studying the variables in the data set, we do not need all the variables for this analysis. Some columns are aggregate columns and have mostly NA's. There are time window variables which we can get rid of, since it should not have an impact on the outcome. Also there are redundant timestamp variables. We can get rid of the timestamp variables, the username and the row index columns along with columns that have any NA's. The utility function transform performs these data cleanup.
 
 ```{r PRE_PROCESS, cache=FALSE}
 
@@ -97,7 +97,7 @@ if(length(noVariance) > 0){
 
 We found `r length(noVariance)` variables having near zero variance in the data set. 
 
-### Check if there are any more variables that have near zero variance
+### Check if there are any more variables that have a high correlation
 ```{r HIGH_COR, cache=TRUE}
 outcome = which(names(subTrain) %in% "classe")
 
@@ -119,7 +119,7 @@ if( length(highlyCorVars) > 0 ){
 
 We found `r length(highlyCorVars)` variables having hight correlation in the data set. 
 
-We are now left with `r length(names(subTrain))-1` variables left exluding the outcome. 
+We are now left with `r length(names(subTrain))-1` variables left, exluding the outcome. 
 
 ### Visualizations
 
@@ -137,7 +137,7 @@ featurePlot(x=(log10(abs(subPlots[,c(22:28)])+1)), y=subPlots$classe, plot="pair
 featurePlot(x=(log10(abs(subPlots[,c(29:34)])+1)), y=subPlots$classe, plot="pairs")
 ```
 
-From looking at the plots, there seems to be some variables that are still corealted. 
+From looking at the plots, there seems to be some variables that are still correalted. 
 
 ### Principal Component Analysis
 
